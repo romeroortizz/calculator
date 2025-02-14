@@ -5,6 +5,7 @@ let maxNumLength = 15;
 const nums = document.querySelectorAll('.num')
 const mathOperators = document.querySelectorAll('.operator')
 const equal = document.querySelector('.equal')
+const period = document.querySelector('.dot')
 // three variables involved in the calculation
 let firstNumber = '';
 let operator = '';
@@ -49,7 +50,7 @@ function display() {
                     secondNumber += num.textContent
                     show.textContent = secondNumber
                     arr.splice(2,1)
-                    arr.push(parseInt(secondNumber))
+                    arr.push(secondNumber)
                     console.log(arr)
                   
                 }  else{
@@ -58,7 +59,7 @@ function display() {
                     firstNumber += num.textContent
                     show.textContent = firstNumber
                     arr.splice(0, 1)
-                    arr.push(parseInt(firstNumber))
+                    arr.push(firstNumber)
                     console.log(arr)
                    
                 }
@@ -101,7 +102,7 @@ function solve() {
         switch (arr[1]) {
             case "+":
                 console.log('adding...') 
-                firstNumber = add(parseInt(arr[0]), parseInt(arr[2]))
+                firstNumber = add(parseFloat(arr[0]), parseFloat(arr[2]))
                 show.textContent = firstNumber
                 arr.splice(0, arr.length, firstNumber)
                 secondNumber = ''
@@ -109,7 +110,7 @@ function solve() {
                 break;
             case "-":
                 console.log('subing...')
-                firstNumber = sub(parseInt(arr[0]), parseInt(arr[2]))
+                firstNumber = sub(parseFloat(arr[0]), parseFloat(arr[2]))
                 show.textContent = firstNumber
                 arr.splice(0, arr.length, firstNumber)
                 secondNumber = ''
@@ -118,7 +119,7 @@ function solve() {
                 break;
             case "*":
                 console.log('mult...')
-                firstNumber = mult(parseInt(arr[0]), parseInt(arr[2]))
+                firstNumber = mult(parseFloat(arr[0]), parseFloat(arr[2]))
                 show.textContent = firstNumber
                 arr.splice(0, arr.length, firstNumber)
                 secondNumber = ''
@@ -127,7 +128,7 @@ function solve() {
                 break;
             case "/":
                 console.log('div...')
-                firstNumber = div(parseInt(arr[0]), parseInt(arr[2]))
+                firstNumber = div(parseFloat(arr[0]), parseFloat(arr[2]))
                 show.textContent = firstNumber
                 arr.splice(0, arr.length, firstNumber)
                 secondNumber = ''
@@ -141,6 +142,28 @@ function solve() {
     
 }
 solve()
+
+
+function insertPeriod() {
+    if(arr ==0)
+        console.log('no need for period')
+    else if (arr.length == 1) {
+        firstNumber+= period.textContent
+        arr[0] += period.textContent
+        console.log(arr)
+        console.log('inserting period')
+
+    } else if (arr.length == 3) {
+        secondNumber += period.textContent
+        arr[2] += period.textContent
+        console.log(arr)
+        console.log('inserting period at second number')
+    }
+}
+
+
 clear.addEventListener('click',clearAll)
 
-equal.addEventListener('click',solve)
+equal.addEventListener('click', solve)
+
+period.addEventListener('click',insertPeriod)
