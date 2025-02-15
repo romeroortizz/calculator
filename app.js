@@ -6,6 +6,8 @@ const nums = document.querySelectorAll('.num')
 const mathOperators = document.querySelectorAll('.operator')
 const equal = document.querySelector('.equal')
 const period = document.querySelector('.dot')
+const backspace = document.querySelector('.backspace')
+const negation = document.querySelector(".negation")
 let delCount = 0
 // three variables involved in the calculation
 let firstNumber 
@@ -24,13 +26,11 @@ function checkForOperators() {
  }
 
 function clearAll() {
-    console.log('clear')
     show.textContent = ''
     defaultZero.textContent = '0'
     firstNumber = ''
     secondNumber = ''
     arr = []
-    console.log(arr)  
 }
 clearAll()
 function outputNums(num) {
@@ -137,24 +137,17 @@ function solve() {
     }  
 }
 solve()
-
+/*fix below*/
 function insertPeriod() {
 
-    if (!arr.length && !arr.includes('.')) {
-       
-        firstNumber += period.textContent
-
-    } else if (arr.length == 1 && !arr[0].includes('.')) {
+    if (arr[arr.length-1] % 1 == 0 ) {
         firstNumber+= period.textContent
         arr[0] += period.textContent
         console.log(arr)
         console.log('inserting period')
-    } else if (arr.length == 3 && !arr[2].includes('.')) {
-        secondNumber += period.textContent
-        arr[2] += period.textContent
-        console.log(arr)
-        console.log('inserting period at second number')
+    
     }
+   
 }
 function keypad(e) {
     if (e.key >= 0 && e.key <= 9) {
@@ -167,6 +160,9 @@ function keypad(e) {
     if (e.key === ".") {
         console.log("keyboard dot")
         insertPeriod() 
+    }
+    if (e.key === "Backspace") {
+        del()
     }
     switch (e.key) {
         case "+":
@@ -184,13 +180,41 @@ function keypad(e) {
     }
   
 }
+function del() {
+    if (arr.length === 1) {
+   
+        show.textContent = show.textContent.slice(0, -1)
+        firstNumber = firstNumber.slice(0, -1)
+        arr[0] = arr[0].slice(0,-1) 
+       
+    } else if (arr.length === 3) {
+        show.textContent = show.textContent.slice(0, -1)
+        secondNumber = secondNumber.slice(0, -1)
+        arr[2] = arr[2].slice(0,-1)
+    }
+    
+}
+
+function toNeg() {
+    const currentNum = arr[arr.length - 1]
+    if (isNaN(Number(currentNum)) ) {
+        console.log('cant turn an operator to a negative number')
+    } else {
+        arr[arr.length - 1] = currentNum * -1
+        show.textContent = currentNum * -1
+     
+    }
+  
+}
 
 clear.addEventListener('click',clearAll)
 equal.addEventListener('click', solve)
 period.addEventListener('click', insertPeriod)
-
+backspace.addEventListener('click', del)
+negation.addEventListener('click',toNeg)
 /* use keyboard to control calculator*/
 document.addEventListener('keydown', keypad)
+
 
 /*code to use let arr = ['123']
 let num = 3

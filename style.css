@@ -44,7 +44,7 @@
 }
 .btn{
     width: 65px;
-    height: 75px;
+    height: 60px;
     font-size: 2rem;
     padding: 0 1rem;
     cursor: pointer;
@@ -64,13 +64,13 @@
     
 }
 .backspace{
-    flex: 1;
+  
     background: rgb(255, 130, 130);
     
 }
 
 .btn.equal {
-    flex:1;
+
     background: rgb(204, 255, 204);
   
 }
