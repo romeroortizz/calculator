@@ -139,14 +139,17 @@ function solve() {
 solve()
 
 function insertPeriod() {
-    if(arr ==0)
-        console.log('no need for period')
-    else if (arr.length == 1) {
+
+    if (!arr.length && !arr.includes('.')) {
+       
+        firstNumber += period.textContent
+
+    } else if (arr.length == 1 && !arr[0].includes('.')) {
         firstNumber+= period.textContent
         arr[0] += period.textContent
         console.log(arr)
         console.log('inserting period')
-    } else if (arr.length == 3) {
+    } else if (arr.length == 3 && !arr[2].includes('.')) {
         secondNumber += period.textContent
         arr[2] += period.textContent
         console.log(arr)
@@ -161,6 +164,10 @@ function keypad(e) {
     if (e.key === "Enter") {
         solve()
     }
+    if (e.key === ".") {
+        console.log("keyboard dot")
+        insertPeriod() 
+    }
     switch (e.key) {
         case "+":
             testOperator({textContent:e.key})
@@ -174,7 +181,8 @@ function keypad(e) {
         case "*":
             testOperator({textContent:e.key})
             break;
-    } 
+    }
+  
 }
 
 clear.addEventListener('click',clearAll)
