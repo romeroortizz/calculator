@@ -64,9 +64,14 @@
     
 }
 .backspace{
-  
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: rgb(255, 130, 130);
     
+}
+.backspace img {
+    width: 2rem;
 }
 
 .btn.equal {

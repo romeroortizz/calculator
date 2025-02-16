@@ -27,7 +27,7 @@ function checkForOperators() {
 
 function clearAll() {
     show.textContent = '' 
-    defaultZero.textContent = ''
+    defaultZero.textContent = '0'
     firstNumber = ''
     secondNumber = ''
     arr = []
@@ -142,6 +142,7 @@ function keypad(e) {
        outputNums(num)
     }
     if (e.key === "Enter") {
+        e.preventDefault()
         solve()
     }
     if (e.key === ".") {
@@ -205,4 +206,3 @@ backspace.addEventListener('click', del)
 negation.addEventListener('click',toNeg)
 /* use keyboard to control calculator*/
 document.addEventListener('keydown', keypad)
-
