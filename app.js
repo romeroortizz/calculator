@@ -10,9 +10,9 @@ const backspace = document.querySelector('.backspace')
 const negation = document.querySelector(".negation")
 let delCount = 0
 // three variables involved in the calculation
-let firstNumber 
-let operator 
-let secondNumber 
+let firstNumber = ""
+let operator = ""
+let secondNumber = ""
 //functions invovled add, sub, div, mult
 const add = (num1, num2) => { return num1 + num2}
 const sub = (num1, num2) => { return num1 - num2 } 
@@ -26,8 +26,8 @@ function checkForOperators() {
  }
 
 function clearAll() {
-    show.textContent = ''
-    defaultZero.textContent = '0'
+    show.textContent = '' 
+    defaultZero.textContent = ''
     firstNumber = ''
     secondNumber = ''
     arr = []
@@ -65,23 +65,17 @@ function display() {
 }
 display()
 function testOperator(mOperator) {
-    if (firstNumber.length != '' || show.textContent != 0)
-        if (checkForOperators() && secondNumber != '') {
-            
-            console.log('already an operator and a second number')
-            solve()
-            operator = mOperator.textContent
-            arr.push(operator)
-            console.log(arr)
-        } else if( checkForOperators()) {
+    if (firstNumber === "") {
+        return
+    }
+    if (firstNumber !== "" && checkForOperators() && secondNumber !== "") {
+        solve();
+    }
 
-            console.log('already an operator but no second number')        
-        } else if (arr.length == 1 || arr.length == 0) {
-            operator = mOperator.textContent
-            arr.push(operator)
-         
-            console.log(arr)
-        }       
+    if (!checkForOperators()) {
+        operator = mOperator.textContent;
+        arr[1] = operator;
+    }
 }
 function chooseMathOperator() {
     mathOperators.forEach((mOperator) => {
@@ -93,59 +87,52 @@ function chooseMathOperator() {
 chooseMathOperator()
 
 function solve() {
-    if (arr.length === 3) {
-        console.log('result')
+    if (arr.length === 3 && firstNumber !== "" && secondNumber !== "") {
+        let result;
         switch (arr[1]) {
             case "+":
-                console.log('adding...') 
-                firstNumber = add(parseFloat(arr[0]), parseFloat(arr[2]))
-                show.textContent = firstNumber
-                arr.splice(0, arr.length, firstNumber)
-                secondNumber = ''
-                console.log(arr)
+                result = add(parseFloat(arr[0]), parseFloat(arr[2]));
                 break;
             case "-":
-                console.log('subing...')
-                firstNumber = sub(parseFloat(arr[0]), parseFloat(arr[2]))
-                show.textContent = firstNumber
-                arr.splice(0, arr.length, firstNumber)
-                secondNumber = ''
-                
-                console.log(arr)
+                result = sub(parseFloat(arr[0]), parseFloat(arr[2]));
                 break;
             case "*":
-                console.log('mult...')
-                firstNumber = mult(parseFloat(arr[0]), parseFloat(arr[2]))
-                show.textContent = firstNumber
-                arr.splice(0, arr.length, firstNumber)
-                secondNumber = ''
-                
-                console.log(arr)
+                result = mult(parseFloat(arr[0]), parseFloat(arr[2]));
                 break;
             case "/":
-                console.log('div...')
-                firstNumber = div(parseFloat(arr[0]), parseFloat(arr[2]))
-                show.textContent = firstNumber
-                arr.splice(0, arr.length, firstNumber)
-                secondNumber = ''
-                
-                console.log(arr)
+                result = div(parseFloat(arr[0]), parseFloat(arr[2]));
                 break;
+            default:
+                console.log("Invalid operation");
+                return;
         }
+        firstNumber = result.toString();
+        secondNumber = "";
+        arr.splice(0, arr.length, firstNumber);
+        
+        console.log(show.textContent = result)
     } else {
-        console.log('please add a calculation')
-    }  
+        console.log("Please add a calculation");
+    }
 }
 solve()
-/*fix below*/
+/*fix insert period*/
 function insertPeriod() {
 
-    if (arr[arr.length-1] % 1 == 0 ) {
+    if (arr[arr.length-1] % 1 == 0 && arr[arr.length-1] === firstNumber && !arr[arr.length-1].includes('.') ) {
         firstNumber+= period.textContent
-        arr[0] += period.textContent
+        arr[arr.length-1] += period.textContent
         console.log(arr)
-        console.log('inserting period')
+        console.log(firstNumber)
+        console.log('inserting period at num 1')
     
+    } 
+    if (arr[arr.length - 1] % 1 == 0 && arr[arr.length - 1] === secondNumber && !arr[arr.length - 1].includes('.')) {
+        secondNumber+= period.textContent
+        arr[arr.length-1] += period.textContent
+        console.log(arr)
+        console.log(firstNumber)
+        console.log('inserting period at num 1')
     }
    
 }
@@ -196,17 +183,21 @@ function del() {
 }
 
 function toNeg() {
-    const currentNum = arr[arr.length - 1]
-    if (isNaN(Number(currentNum)) ) {
-        console.log('cant turn an operator to a negative number')
-    } else {
-        arr[arr.length - 1] = currentNum * -1
-        show.textContent = currentNum * -1
-     
-    }
-  
-}
+    const currentNum = arr.length-1
 
+    if (Number(arr[0]) && !arr[0].includes('-')) {
+        firstNumber = "-" + firstNumber
+        arr[currentNum] = firstNumber
+        show.textContent = firstNumber
+    
+    }
+    if (Number(arr[2]) && !arr[2].includes('-')) {
+        secondNumber = "-" + secondNumber
+        arr[currentNum] = secondNumber
+        show.textContent = secondNumber
+   }
+
+}
 clear.addEventListener('click',clearAll)
 equal.addEventListener('click', solve)
 period.addEventListener('click', insertPeriod)
@@ -215,12 +206,3 @@ negation.addEventListener('click',toNeg)
 /* use keyboard to control calculator*/
 document.addEventListener('keydown', keypad)
 
-
-/*code to use let arr = ['123']
-let num = 3
-const output = arr[0].slice(0,-1)
-arr[0] = output
-
-console.log(output)
-
-console.log(arr)*/
